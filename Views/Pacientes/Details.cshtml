@@ -1,0 +1,94 @@
+﻿@model Programa_Odontologico.Models.Paciente
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+    <style>
+        h1{
+            color: black;
+            font-family: 'Times New Roman';
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Paciente</h1>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Apellido)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Edad)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Edad)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Direccion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Fecha)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Telefono)
+            </dd>
+
+        </dl>
+    </div>
+    <div class="card-footer">
+        <div class="form-group text-center" display: inline-block>
+            <a href="@Url.Action("Edit", "Pacientes", new { id = Model.PacienteId})">
+                <input type="button" value="Editar" class="btn btn-default"/>
+            </a>
+            <a href="@Url.Action("Index", "Pacientes")">
+                <input type="button" value="Volver a la lista" class="btn btn-default"/>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
