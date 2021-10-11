@@ -14,7 +14,7 @@ namespace Programa_Odontologico.Controllers
 {
     public class PacientesController : Controller
     {
-        private OdontologicoEntities5 db = new OdontologicoEntities5();
+        private OdontologicoDbEntities1 db = new OdontologicoDbEntities1();
 
         public ActionResult Index()
         {
@@ -54,7 +54,7 @@ namespace Programa_Odontologico.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Mensaje(paciente.Email);
+                    //Mensaje(paciente.Email, paciente.Nombre, paciente.Apellido, paciente.Edad, paciente.Direccion);
                     db.Pacientes.Add(paciente);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -137,7 +137,7 @@ namespace Programa_Odontologico.Controllers
             }
         }
 
-        public static void Mensaje(string correo)
+        public static void Mensaje(string correo, string nombre, string apellido, int edad, string direccion)
         {
             try
             {
@@ -145,11 +145,13 @@ namespace Programa_Odontologico.Controllers
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
                 mail.From = new MailAddress("ClinicaDental.Llu@gmail.com");
                 mail.To.Add(correo);
-                mail.Body = "Verifique su correo electronico ingresando a este link";
-                mail.Subject = "Verificacion de correo";
+                mail.Body = "Datos registrados de paciente \nNombre: " +nombre+ "\nApellido: " +
+                    apellido + "\nEdad: " + edad + "\nDireccion: " + direccion;
+                mail.Subject = "Envio de datos de registro";
                 SmtpServer.Port = 587;
-                SmtpServer.Credentials = new NetworkCredential("therangers1009@gmail.com", "Maria4030");
+                SmtpServer.Credentials = new NetworkCredential("erickson_fana@ucne.edu.do", "Maria4020");
                 SmtpServer.EnableSsl = true;
+                SmtpServer.Host = "smtp.gmail.com";
                 SmtpServer.Send(mail);
 
             }

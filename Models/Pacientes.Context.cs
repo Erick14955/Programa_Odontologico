@@ -13,10 +13,10 @@ namespace Programa_Odontologico.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class OdontologicoEntities5 : DbContext
+    public partial class OdontologicoDbEntities1 : DbContext
     {
-        public OdontologicoEntities5()
-            : base("name=OdontologicoEntities5")
+        public OdontologicoDbEntities1()
+            : base("name=OdontologicoDbEntities1")
         {
         }
     

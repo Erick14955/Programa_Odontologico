@@ -4,42 +4,42 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="OdontologicoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Pacientes">
+      <Schema Namespace="OdontologicoDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Paciente">
           <Key>
             <PropertyRef Name="PacienteId" />
           </Key>
           <Property Name="PacienteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="Apellido" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar(max)" />
+          <Property Name="Apellido" Type="nvarchar(max)" />
           <Property Name="Edad" Type="int" Nullable="false" />
-          <Property Name="Direccion" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="Email" Type="varchar" MaxLength="80" Nullable="false" />
-          <Property Name="Telefono" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Direccion" Type="nvarchar(max)" />
+          <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Telefono" Type="nvarchar(max)" />
         </EntityType>
-        <EntityContainer Name="OdontologicoModelStoreContainer">
-          <EntitySet Name="Pacientes" EntityType="Self.Pacientes" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="OdontologicoDbModelStoreContainer">
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="OdontologicoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="OdontologicoDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Paciente">
           <Key>
             <PropertyRef Name="PacienteId" />
           </Key>
           <Property Name="PacienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Apellido" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Edad" Type="Int32" Nullable="false" />
-          <Property Name="Direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Email" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Telefono" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="OdontologicoEntities5" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="OdontologicoDbEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Pacientes" EntityType="Self.Paciente" />
         </EntityContainer>
       </Schema>
@@ -47,10 +47,10 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="OdontologicoModelStoreContainer" CdmEntityContainer="OdontologicoEntities5">
+        <EntityContainerMapping StorageEntityContainer="OdontologicoDbModelStoreContainer" CdmEntityContainer="OdontologicoDbEntities1">
           <EntitySetMapping Name="Pacientes">
-            <EntityTypeMapping TypeName="OdontologicoModel.Paciente">
-              <MappingFragment StoreEntitySet="Pacientes">
+            <EntityTypeMapping TypeName="OdontologicoDbModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
                 <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />

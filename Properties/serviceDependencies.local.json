@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/odontologia/databases/Odontologico",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:odontologico",
+      "secretStore": "LocalSecretsFile"
+    },
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "mssql2": {
+      "type": "mssql.onprem",
+      "connectionId": "ConnectionStrings:Odontologicos",
+      "secretStore": "LocalSecretsFile"
+    },
+    "mssql3": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/odontologico/databases/OdontologicoDb",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings",
+      "secretStore": "LocalSecretsFile"
+    }
+  }
+}
