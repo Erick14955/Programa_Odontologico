@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Programa_Odontologico.Models;
 using System.Net.Mail;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace Programa_Odontologico.Controllers
 {
@@ -45,21 +46,28 @@ namespace Programa_Odontologico.Controllers
         public ActionResult Create([Bind(Include = "PacienteId,Nombre,Apellido,Edad,Direccion,Fecha,Email,Telefono")] Paciente paciente)
         {
             bool valido = validarCorreo(paciente.Email);
-            if(valido == false){
+            bool validarTelefono = ValidarTelefonos7a10Digitos(paciente.Telefono);
+            if (valido == false) {
                 ModelState.AddModelError(
                     "Email", "Debe ingresar una direccion de correo electronico valida"
                     );
             }
-            else
+            if (validarTelefono == false)
             {
-                if (ModelState.IsValid)
-                {
-                    //Mensaje(paciente.Email, paciente.Nombre, paciente.Apellido, paciente.Edad, paciente.Direccion);
-                    db.Pacientes.Add(paciente);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                ModelState.AddModelError(
+                    "Telefono", "Debe ingresar un numero de telefono valido"
+                    );
             }
+            else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        //Mensaje(paciente.Email, paciente.Nombre, paciente.Apellido, paciente.Edad, paciente.Direccion);
+                        db.Pacientes.Add(paciente);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
 
             return View(paciente);
         }
@@ -143,15 +151,14 @@ namespace Programa_Odontologico.Controllers
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                mail.From = new MailAddress("ClinicaDental.Llu@gmail.com");
+                mail.From = new MailAddress("therangers15@gmail.com");
                 mail.To.Add(correo);
                 mail.Body = "Datos registrados de paciente \nNombre: " +nombre+ "\nApellido: " +
                     apellido + "\nEdad: " + edad + "\nDireccion: " + direccion;
                 mail.Subject = "Envio de datos de registro";
                 SmtpServer.Port = 587;
-                SmtpServer.Credentials = new NetworkCredential("erickson_fana@ucne.edu.do", "Maria4020");
+                SmtpServer.Credentials = new System.Net.NetworkCredential("erickson_fana@ucne.edu.do", "Maria4020");
                 SmtpServer.EnableSsl = true;
-                SmtpServer.Host = "smtp.gmail.com";
                 SmtpServer.Send(mail);
 
             }
@@ -160,6 +167,17 @@ namespace Programa_Odontologico.Controllers
                 throw;
             }
 
+        }
+
+        public static bool ValidarTelefonos7a10Digitos(string strNumber)
+        {
+            Regex regex = new Regex(@"\A[0-9]{7,10}\z");
+            Match match = regex.Match(strNumber);
+
+            if (match.Success)
+                return true;
+            else
+                return false;
         }
     }
 }
