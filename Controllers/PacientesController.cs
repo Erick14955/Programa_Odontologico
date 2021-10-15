@@ -21,7 +21,22 @@ namespace Programa_Odontologico.Controllers
         {
             return View(db.Pacientes.ToList());
         }
+        [HttpPost]
+        public ActionResult Index(string busqueda)
+        {
+            ViewData["CurrentFilter"] = busqueda;
+            var paciente = from s in db.Pacientes select s;
 
+            if (!string.IsNullOrEmpty(busqueda))
+            {
+                paciente = paciente.Where(s => s.Nombre.Contains(busqueda) || s.Apellido.Contains(busqueda)
+                || s.Edad.ToString().Contains(busqueda) || s.Direccion.Contains(busqueda) || s.Fecha.ToString().Contains(busqueda)
+                || s.Email.Contains(busqueda) || s.Telefono.Contains(busqueda));
+            }
+            return View(paciente.ToList());
+        }
+
+        [HttpPost]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -45,7 +60,7 @@ namespace Programa_Odontologico.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "PacienteId,Nombre,Apellido,Edad,Direccion,Fecha,Email,Telefono")] Paciente paciente)
         {
-            bool valido = validarCorreo(paciente.Email);
+            bool valido = ValidarCorreo(paciente.Email);
             bool validarTelefono = ValidarTelefonos7a10Digitos(paciente.Telefono);
             if (valido == false) {
                 ModelState.AddModelError(
@@ -132,7 +147,7 @@ namespace Programa_Odontologico.Controllers
             base.Dispose(disposing);
         }
 
-        public static bool validarCorreo(string email)
+        public static bool ValidarCorreo(string email)
         {
             try
             {

@@ -10,14 +10,18 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
-        th{
+        th {
             font-family: 'Times New Roman';
             font-size: 30px;
             align-self: center;
             text-align: center;
             width: 100%;
         }
+
         table {
             border-spacing: 20px;
             border-collapse: collapse;
@@ -26,16 +30,19 @@
             border-color: black;
             border-top: black;
         }
-        h1{
+
+        h1 {
             font-family: 'Times New Roman';
             text-align: center;
             font-size: 60px;
             color: black;
         }
+
         td {
             font-family: 'Times New Roman';
             background-position: center;
         }
+
         p {
             transform: translateY(40%)
         }
@@ -43,12 +50,22 @@
 </head>
 <body>
     <h1>Centro Odontologico doctor Lluberes</h1>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="text" name="busqueda" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Buscar" class="btn btn-default" />
+            @*<a asp-action="Index" class="btn btn-default">Todos los pacientes</a>*@
+        </div>
+        <br />
+    }
     <table border="1" cellpadding="4" cellspacing="3">
-        <tr  style="background-color: #90C2E7; text-align: center; font-family: 'Times New Roman';">
+        <tr style="background-color: #90C2E7; text-align: center; font-family: 'Times New Roman';">
             <th colspan="8">
                 <h3 style="font-size: 40px;">
                     <br /> Lista de pacientes en espera
-                </h3> 
+                </h3>
             </th>
         </tr>
         <tr>
@@ -74,49 +91,69 @@
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
         </tr>
-        @foreach (var item in Model)
-        {
-            <tr style="text-align: center;">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Apellido)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Edad)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Direccion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Telefono)
-                </td>
-                <td>
-                    <a href="@Url.Action("Edit", "Pacientes", new { id = item.PacienteId })">
-                        <input type="submit" value="Editar"/>
-                    </a>
-                    <a href="@Url.Action("Details", "Pacientes", new { id = item.PacienteId })">
-                        <input type="submit" value="Detalles"/>
-                    </a>
-                    <a href="@Url.Action("Delete", "Pacientes", new { id = item.PacienteId })">
-                        <input type="submit" value="Eliminar"/>
-                    </a>
-                </td>
-            </tr>
-        }
+        <tbody id="tabla_seccion_bus">
+            @foreach (var item in Model)
+            {
+                <tr style="text-align: center;">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Edad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telefono)
+                    </td>
+                    <td>
+                        <a id="EditarButton" data-toggle="modal" href="#Popup" data-id="@item.PacienteId" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-pencil" style="color: black;"></i>
+                        </a>
+                        <a id="DetallesButton" data-toggle="modal" href="#Popup" data-id="@item.PacienteId" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-user" style="color: black;"></i>
+                        </a>
+                        <a id="EliminarButton" data-toggle="modal" href="#Popup" data-id="@item.PacienteId" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-trash" style="color: black;"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 
+    <div id="Popup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="MiPopLabel" aria-hidden="true" style="display: none;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="MiPopLabel">Paciente</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-content">
+                        Cargando...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <p>
-        <a href="@Url.Action("Create", "Pacientes")">
-            <input type="submit" value="Nuevo Paciente" class="btn btn-default">
+        <a id="ButtonNuevo" data-toggle="modal" href="#Popup" class="btn btn-default">
+            Nuevo Paciente
         </a>
     </p>
+    @section scripts{
+        <script src="~/Scripts/Paciente/Paciente.js"></script>
+    }
 </body>
 </html>
